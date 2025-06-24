@@ -1,12 +1,12 @@
-🤖 Simple Sentiment Analyzer
-This is a very small and basic web-based AI project designed to analyze the sentiment of a given sentence. It's built primarily for beginners learning about web development and GitHub Pages deployment.
+🤖 Simple Sentiment Analyser
+This is a very small and basic web-based AI project designed to analyse the sentiment of a given sentence. It's built primarily for beginners learning about web development and GitHub Pages deployment.
 
 ✨ Features
 Basic Sentiment Analysis: Determines if a sentence is Positive, Negative, or Neutral based on a predefined list of keywords.
 
 Simple User Interface: A clean and intuitive interface for inputting text and displaying results.
 
-Instant Feedback: Provides immediate sentiment analysis upon clicking the "Analyze Sentiment" button or pressing Enter.
+Instant Feedback: Provides immediate sentiment analysis upon clicking the "Analyse Sentiment" button or pressing Enter.
 
 Fully Client-Side: All logic runs directly in your browser, with no server-side components.
 
@@ -15,7 +15,7 @@ Open the Application: If deployed on GitHub Pages, simply navigate to the live U
 
 Enter Text: Type or paste any sentence into the text area.
 
-Analyze: Click the "Analyze Sentiment" button or press the Enter key.
+Analyse: Click the "Analyse Sentiment" button or press the Enter key.
 
 View Result: The sentiment (Positive, Negative, or Neutral) will be displayed below the button.
 
@@ -27,7 +27,7 @@ Tailwind CSS: A utility-first CSS framework for rapid and responsive styling.
 JavaScript: For the core sentiment analysis logic and interactive elements.
 
 💡 How It Works (The "AI" Part)
-This sentiment analyzer is not powered by complex machine learning models. Instead, it uses a very simple, rule-based approach:
+This sentiment analyser is not powered by complex machine learning models. Instead, it uses a very simple, rule-based approach:
 
 It has predefined lists of common "positive" and "negative" words.
 
