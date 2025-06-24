@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple AI Sentiment Analyzer</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Apply the Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure full viewport height */
+            background-color: #e0f2fe; /* Light blue background */
+            padding: 1rem; /* Add some padding on small screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+        /* Custom styles for the result display */
+        #result {
+            min-height: 2.5rem; /* Ensure space for the message */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+        }
+        /* Ensure responsive font sizing and spacing */
+        @media (max-width: 640px) {
+            .text-3xl { font-size: 2rem; }
+            .text-lg { font-size: 1rem; }
+            .p-8 { padding: 1.5rem; }
+            .rounded-xl { border-radius: 0.75rem; }
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-200">
+    <!-- Main container for the sentiment analyzer -->
+    <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
+        <!-- Title of the application -->
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-4">Sentiment Analyzer 🤖</h1>
+        <!-- Description of the application -->
+        <p class="text-md text-gray-700 mb-6">
+            Enter a sentence and let the AI try to guess its sentiment (positive, negative, or neutral).
+        </p>
+
+        <!-- Textarea for user input -->
+        <textarea 
+            id="sentenceInput" 
+            rows="4" 
+            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 text-gray-800"
+            placeholder="Type your sentence here..."
+            aria-label="Enter your sentence for sentiment analysis"
+        ></textarea>
+        
+        <!-- Button to trigger sentiment analysis -->
+        <button 
+            id="analyseButton" 
+            class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105 shadow-md mb-6"
+            aria-label="Analyse Sentiment"
+        >
+            Analyse Sentiment
+        </button>
+
+        <!-- Div to display the analysis result -->
+        <div 
+            id="result" 
+            class="bg-blue-50 p-3 rounded-lg text-lg text-blue-800 border border-blue-200"
+            role="status"
+            aria-live="polite"
+        >
+            <!-- Initial message -->
+            Type something to get started!
+        </div>
+
+        <!-- Disclaimer for the simple AI -->
+        <p class="text-xs text-gray-500 mt-8">
+            Disclaimer: This is a very simple, rule-based AI demonstration for learning purposes. 
+            It doesn't use complex machine learning models and may not always be accurate!
+        </p>
+    </div>
+
+    <script>
+        // Get references to the HTML elements
+        const sentenceInput = document.getElementById('sentenceInput');
+        const analyseButton = document.getElementById('analyseButton');
+        const resultDiv = document.getElementById('result');
+
+        // Define lists of positive and negative keywords
+        // This is a simple, rule-based "AI" for demonstration purposes.
+        const positiveWords = ['good', 'great', 'excellent', 'happy', 'love', 'amazing', 'fantastic', 'awesome', 'wonderful', 'joy', 'excited', 'positive', 'superb', 'brilliant', 'delightful', 'charming', 'thrilled'];
+        const negativeWords = ['bad', 'terrible', 'horrible', 'sad', 'hate', 'awful', 'poor', 'unhappy', 'negative', 'frustrated', 'ugly', 'disappointing', 'messy', 'unpleasant', 'dreadful'];
+
+        /**
+         * Function to analyse the sentiment of the text entered by the user.
+         * It checks for the presence of positive and negative keywords and
+         * updates the UI to reflect the determined sentiment.
+         */
+        function analyseSentiment() {
+            const sentence = sentenceInput.value.toLowerCase(); // Get text and convert to lowercase for case-insensitive matching
+            let positiveCount = 0;
+            let negativeCount = 0;
+
+            // Check for positive words in the sentence
+            positiveWords.forEach(word => {
+                if (sentence.includes(word)) {
+                    positiveCount++;
+                }
+            });
+
+            // Check for negative words in the sentence
+            negativeWords.forEach(word => {
+                if (sentence.includes(word)) {
+                    negativeCount++;
+                }
+            });
+
+            // Determine the sentiment based on the counts of positive and negative words
+            if (positiveCount > negativeCount) {
+                // If more positive words, set sentiment to Positive
+                resultDiv.className = 'bg-green-100 p-3 rounded-lg text-lg text-green-800 border border-green-300';
+                resultDiv.textContent = 'Sentiment: Positive 😊';
+            } else if (negativeCount > positiveCount) {
+                // If more negative words, set sentiment to Negative
+                resultDiv.className = 'bg-red-100 p-3 rounded-lg text-lg text-red-800 border border-red-300';
+                resultDiv.textContent = 'Sentiment: Negative 🙁';
+            } else if (sentence.trim() === '') {
+                // If input is empty, revert to initial state
+                resultDiv.className = 'bg-blue-50 p-3 rounded-lg text-lg text-blue-800 border border-blue-200';
+                resultDiv.textContent = 'Type something to get started!';
+            } else {
+                // If counts are equal or no strong words, but there's text, set to Neutral
+                resultDiv.className = 'bg-gray-100 p-3 rounded-lg text-lg text-gray-800 border border-gray-300';
+                resultDiv.textContent = 'Sentiment: Neutral 😐';
+            }
+        }
+
+        // Add an event listener to the analyse button to trigger sentiment analysis on click
+        analyseButton.addEventListener('click', analyseSentiment);
+
+        // Optional: Add an event listener to the textarea for 'Enter' key press
+        // This allows users to trigger analysis by pressing Enter, similar to a chat application.
+        sentenceInput.addEventListener('keypress', (event) => {
+            // Check if the pressed key is 'Enter' and Shift key is NOT pressed (to allow new lines with Shift+Enter)
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent the default action (e.g., new line in textarea)
+                analyseSentiment(); // Call the sentiment analysis function
+            }
+        });
+
+        // Initial analysis call if there's pre-filled text (though textarea starts empty)
+        // analyseSentiment(); 
+    </script>
+</body>
+</html>
